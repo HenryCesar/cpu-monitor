@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8" />
+    <title>CPU Monitor</title>
+    <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+    <div class="box">
+      <span class="label">CPU (%)</span>
+      <span id="cpu">-</span>
+    </div>
+    <div class="box">
+      <span class="label">Free Mem (%)</span>
+      <span id="mem">-</span>
+    </div>
+    <div class="box">
+      <span class="label">Total Mem (GB)</span>
+      <span id="total-mem">-</span>
+    </div>
   </body>
+  <script>
+    const electron = require("electron");
+    const ipcRenderer = electron.ipcRenderer;
+    ipcRenderer.on("cpu", (event, data) => {
+      document.getElementById("cpu").innerHTML = data.toFixed(2);
+    });
+    ipcRenderer.on("mem", (event, data) => {
+      document.getElementById("mem").innerHTML = data.toFixed(2);
+    });
+    ipcRenderer.on("total-mem", (event, data) => {
+      document.getElementById("total-mem").innerHTML = data.toFixed(2);
+    });
+  </script>
 </html>
